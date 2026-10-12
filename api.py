@@ -51,3 +51,17 @@ async def dining_all(date: str = ""):
 
     except requests.exceptions.ConnectionError:
         return None
+
+
+@app.get(
+    "/api/health",
+    response_class=JSONResponse,
+    responses={
+        200: {
+            "content": {"application/json": {"example": {"status": "OK"}}},
+            "description": "Indicates that the API is healthy and responding to requests.",
+        },
+    }
+)
+def health_check():
+    return JSONResponse(status_code=200, content={"status": "OK"})
