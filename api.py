@@ -4,6 +4,8 @@
 #
 # Defines the main FastAPI app and defines the one API route that it offers.
 
+from datetime import date as dt
+
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 import requests
@@ -37,8 +39,13 @@ async def dining_all(date: str = ""):
         # Inject constant location info changes into the response.
         response_json = inject_const_location_info(response_json)
 
-        # Inject visiting chef info into the response.
-        response_json = inject_visiting_chefs(response_json)
+        # These injections should only happen if the requested date is today's date. Unfortunately we can only get
+        # today's info from the RIT dining website so we're stuck with this limitation.
+        if str(dt.today()) == date:
+            print("request made for today, performing all injections")
+
+            # Inject visiting chef info into the response.
+            response_json = inject_visiting_chefs(response_json)
 
         return JSONResponse(response_json)
 
