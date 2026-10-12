@@ -87,7 +87,11 @@ def parse_visiting_chefs(html: str) -> dict:
 
             start_time_pieces = start_time.split(":")
             start_am_pm_pieces = start_time_pieces[1].split(" ")
-            tc_chef_string += start_time_pieces[0] + " " + start_am_pm_pieces[1] + "-"
+            tc_chef_string += start_time_pieces[0]
+
+            if "am" in start_am_pm_pieces[1]:
+                tc_chef_string += " " + start_am_pm_pieces[1]
+            tc_chef_string += "-"
 
             end_time_pieces = end_time.split(":")
             end_am_pm_pieces = end_time_pieces[1].split(" ")
